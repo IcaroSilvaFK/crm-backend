@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+enum Roles {
+  ADMIN
+  EMPLOYEE
+  USER
+}
+
+model Users {
+  id        String   @id @default(uuid())
+  role      Roles
+  username  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model Customers {
+  id          String     @id @default(uuid())
+  username    String
+  phoneNumber Int        @map("phone_number")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+  Services    Services[]
+  Address     Address[]
+
+  @@map("customers")
+}
+
+model Address {
+  id           String    @id @default(uuid())
+  number       Int
+  street       String
+  neighborhood String
+  complement   String
+  customerId   String    @map("customer_id")
+  customer     Customers @relation(fields: [customersId], references: [id])
+  customersId  String
+
+  @@map("addreess")
+}
+
+enum ServicesStatus {
+  DONE
+  PENDING
+  PROGRESS
+}
+
+model Services {
+  id         String         @id @default(cuid())
+  customerId String         @map("customer_id")
+  details    String
+  value      Int
+  startDate  DateTime?      @map("start_date")
+  endDate    DateTime?      @map("end_date")
+  status     ServicesStatus
+
+  customer Customers @relation(fields: [customerId], references: [id])
+
+  @@map("services")
+}
