@@ -48,7 +48,7 @@ export class UserEntity {
   }
 
   validate() {
-    if (!this.email || !this.password || !this.role || !this.username) {
+    if (!this.email || !this.password || !this.username) {
       throw new UserEntityInvalidError('Usuário sem campos obrigatórios');
     }
   }
