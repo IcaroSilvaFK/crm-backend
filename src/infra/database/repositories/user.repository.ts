@@ -1,12 +1,10 @@
 import { UserRepositoryInterface } from '../../../application/repositories/userRepositoryInterface';
-
 import { UserEntity, UserRoles } from '../../../application/entities/user.entity'
 import { PrismaService } from '../prisma/prisma.service'
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 
 export class UserRepository implements UserRepositoryInterface {
-
   constructor(private readonly prismaService: PrismaService) { }
 
   async store(user: UserEntity): Promise<UserEntity> {
@@ -56,8 +54,7 @@ export class UserRepository implements UserRepositoryInterface {
     })
 
     if (!user) {
-
-      throw new NotFoundException(`The user with id ${id} not exists`)
+      throw new NotFoundException(`The user with id ${id} not exists.`)
     }
 
     return new UserEntity(

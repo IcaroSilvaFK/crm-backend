@@ -1,4 +1,6 @@
+import { HashUtils } from '../../infra/utils/hashUtil';
 import { UuidUtils } from '../../infra/utils/uuidUtils';
+import { UserEntityInvalidError } from '../errors/userEntityInvalidError';
 
 export enum UserRoles {
   ADMIN = 'ADMIN',
@@ -39,5 +41,15 @@ export class UserEntity {
 
   set setUpdatedAt(date: Date) {
     this.updatedAt = date;
+  }
+
+  async ensurePassword() {
+    this.password = await HashUtils.makeHash(this.password);
+  }
+
+  validate() {
+    if (!this.email || !this.password || !this.role || !this.username) {
+      throw new UserEntityInvalidError('Usuário sem campos obrigatórios');
+    }
   }
 }
