@@ -1,11 +1,19 @@
 name: Run Tests
 
+on:
+  push:
+    branches:
+      - '*'
+      - '*/*'
+      - '**'
+      - '!master'
 jobs:
   tests:
     runs-on: ubuntu-latest
 
     steps:
       - name: Use nodejs
+        uses: actions/setup-node@v4
         with:
           node-version: 20.13.1
       - run: npm ci
