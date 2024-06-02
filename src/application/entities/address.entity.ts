@@ -1,4 +1,4 @@
-import { UuidUtils } from 'src/infra/utils/uuidUtils';
+import { UuidUtils } from '../../infra/utils/uuidUtils';
 
 export class AddressEntity {
   id: string;

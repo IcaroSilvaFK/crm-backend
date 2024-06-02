@@ -1,7 +1,7 @@
 import { UserEntity, UserRoles } from '../entities/user.entity';
 import { UserPresenter } from './user.presenter';
 
-describe('#UserPresneter', () => {
+describe('#UserPresenter', () => {
   it('Should return valid json when passed valid user', () => {
     const now = new Date();
     const user = new UserEntity(

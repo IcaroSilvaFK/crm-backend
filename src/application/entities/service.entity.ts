@@ -1,3 +1,4 @@
+import { UuidUtils } from './../../infra/utils/uuidUtils';
 import { CustomerEntity } from './customer.entity';
 
 export enum ServicesEntityStatus {
@@ -29,7 +30,7 @@ export class ServiceEntity {
     this.value = value;
     this.startDate = startDate;
     this.endDate = endDate;
-    this.id = id;
+    this.id = id ?? UuidUtils.generateUUID();
   }
 
   set setStartDate(date: Date) {

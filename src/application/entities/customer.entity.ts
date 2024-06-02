@@ -1,4 +1,5 @@
 import { AddressEntity } from './address.entity';
+import { UuidUtils } from '../../infra/utils/uuidUtils';
 
 export class CustomerEntity {
   id: string;
@@ -17,14 +18,10 @@ export class CustomerEntity {
     this.username = username;
     this.phoneNumber = phoneNumber;
     this.address = address;
-    this.id = id;
+    this.id = id ?? UuidUtils.generateUUID();
   }
 
   set setAddress(address: AddressEntity) {
     this.address = address;
-  }
-
-  set setId(id: string) {
-    this.id = id;
   }
 }
