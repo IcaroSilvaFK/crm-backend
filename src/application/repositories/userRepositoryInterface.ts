@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable } from '@nestjs/common';
 
-import { UserEntity } from '../entities/user.entity'
+import { UserEntity } from '../entities/user.entity';
 
 @Injectable()
 export abstract class UserRepositoryInterface {
-  abstract store(user: UserEntity): Promise<UserEntity>
-  abstract findByEmail(email: string): Promise<UserEntity>
-  abstract findById(id: string): Promise<Partial<UserEntity>>
-  abstract update(id: string, user: Partial<UserEntity>): Promise<void>
-  abstract destroy(id: string): Promise<void>
+  abstract store(user: UserEntity): Promise<UserEntity>;
+  abstract findByEmail(email: string): Promise<UserEntity>;
+  abstract findById(id: string): Promise<Partial<UserEntity>>;
+  abstract update(id: string, user: Partial<UserEntity>): Promise<void>;
+  abstract destroy(id: string): Promise<void>;
 }

@@ -2,6 +2,7 @@
 import { UserService } from './user.service';
 import { UserRepositoryInMemory } from '../../infra/database/inMemory/userRepositoryMemory';
 import { UserEntity, UserRoles } from '../entities/user.entity';
+import { NotFoundException } from '@nestjs/common';
 
 describe('#UserSerivce', () => {
   const inMemoryDb = new UserRepositoryInMemory();
@@ -100,5 +101,20 @@ describe('#UserSerivce', () => {
     await service.update(user.id, {});
   });
 
-  it.todo('Should delete user when pass valid id');
+  it('Should delete user when pass valid id', async () => {
+    const user = new UserEntity(
+      'test@test.com',
+      '1234',
+      'username',
+      UserRoles.USER,
+    );
+
+    await service.store(user);
+
+    await service.destroy(user.id);
+
+    await expect(
+      async () => await service.findById(user.id),
+    ).rejects.toBeInstanceOf(NotFoundException);
+  });
 });

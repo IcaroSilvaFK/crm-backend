@@ -14,7 +14,12 @@ describe('#CustomerEntity', () => {
 
     const customer = new CustomerEntity('Test', 62998358542);
 
-    customer.setAddress = new AddressEntity(353, 'test', 'Near Test Square');
+    customer.setAddress = new AddressEntity(
+      353,
+      'street',
+      'test',
+      'Near Test Square',
+    );
 
     const expectedCustomer = {
       id: mockId,
@@ -22,6 +27,7 @@ describe('#CustomerEntity', () => {
       phoneNumber: 62998358542,
       address: {
         number: 353,
+        street: 'street',
         neighborhood: 'test',
         complement: 'Near Test Square',
         id: mockId,

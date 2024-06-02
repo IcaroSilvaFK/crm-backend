@@ -24,4 +24,12 @@ export class CustomerEntity {
   set setAddress(address: AddressEntity) {
     this.address = address;
   }
+
+  set setCreatedAt(date: Date) {
+    this.createdAt = date;
+  }
+
+  set setUpdatedAt(date: Date) {
+    this.updatedAt = date;
+  }
 }

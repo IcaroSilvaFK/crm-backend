@@ -1,11 +1,13 @@
 import { UserRepositoryInterface } from '../../../application/repositories/userRepositoryInterface';
-import { UserEntity, UserRoles } from '../../../application/entities/user.entity'
-import { PrismaService } from '../prisma/prisma.service'
+import {
+  UserEntity,
+  UserRoles,
+} from '../../../application/entities/user.entity';
+import { PrismaService } from '../prisma/prisma.service';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
-
 export class UserRepository implements UserRepositoryInterface {
-  constructor(private readonly prismaService: PrismaService) { }
+  constructor(private readonly prismaService: PrismaService) {}
 
   async store(user: UserEntity): Promise<UserEntity> {
     const result = await this.prismaService.users.create({
@@ -14,25 +16,25 @@ export class UserRepository implements UserRepositoryInterface {
         username: user.username,
         email: user.email,
         password: user.password,
-        role: user.role
-      }
-    })
+        role: user.role,
+      },
+    });
 
-    user.setCratedAt = result.createdAt
-    user.setUpdatedAt = result.updatedAt
+    user.setCratedAt = result.createdAt;
+    user.setUpdatedAt = result.updatedAt;
 
-    return user
+    return user;
   }
 
   async findByEmail(email: string): Promise<UserEntity> {
     const user = await this.prismaService.users.findFirst({
       where: {
-        email
-      }
-    })
+        email,
+      },
+    });
 
     if (!user) {
-      throw new BadRequestException("User or password not valid")
+      throw new BadRequestException('User or password not valid');
     }
 
     return new UserEntity(
@@ -42,19 +44,19 @@ export class UserRepository implements UserRepositoryInterface {
       user.role as UserRoles,
       user.id,
       user.createdAt,
-      user.updatedAt
-    )
+      user.updatedAt,
+    );
   }
 
   async findById(id: string): Promise<Partial<UserEntity>> {
     const user = await this.prismaService.users.findFirst({
       where: {
         id,
-      }
-    })
+      },
+    });
 
     if (!user) {
-      throw new NotFoundException(`The user with id ${id} not exists.`)
+      throw new NotFoundException(`The user with id ${id} not exists.`);
     }
 
     return new UserEntity(
@@ -64,8 +66,8 @@ export class UserRepository implements UserRepositoryInterface {
       user.role as UserRoles,
       user.id,
       user.createdAt,
-      user.updatedAt
-    )
+      user.updatedAt,
+    );
   }
 
   async update(id: string, user: Partial<UserEntity>): Promise<void> {
@@ -73,17 +75,15 @@ export class UserRepository implements UserRepositoryInterface {
       where: {
         id,
       },
-      data: user
-    })
+      data: user,
+    });
   }
 
   async destroy(id: string): Promise<void> {
     await this.prismaService.users.delete({
       where: {
-        id
-      }
-    })
+        id,
+      },
+    });
   }
-
 }
-

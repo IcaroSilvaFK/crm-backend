@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { UserRepositoryInterface } from '../repositories/userRepositoryInterface';
 import { CreateUserDTO } from '../../infra/dtos/createUser.dto';
 import { UserEntity } from '../entities/user.entity';
 import { UserPresenter } from '../presenters/user.presenter';
 import { UpdateUserDTO } from '../../infra/dtos/updateUser.dto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class UserService {
@@ -24,7 +25,11 @@ export class UserService {
 
       return new UserPresenter(createdUser);
     } catch (err) {
-      console.log(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException();
+      }
+
+      throw err;
     }
   }
 
@@ -34,7 +39,11 @@ export class UserService {
 
       return new UserPresenter(user);
     } catch (err) {
-      console.log(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException();
+      }
+
+      throw err;
     }
   }
 
@@ -43,7 +52,10 @@ export class UserService {
       const user = await this.userRepository.findById(id);
       return new UserPresenter(user);
     } catch (err) {
-      console.log(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException();
+      }
+      throw err;
     }
   }
 
@@ -52,15 +64,24 @@ export class UserService {
       await this.userRepository.findById(id);
       await this.userRepository.update(id, data);
     } catch (err) {
-      console.log(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException();
+      }
+
+      throw err;
     }
   }
 
   async destroy(id: string): Promise<void> {
     try {
+      await this.userRepository.findById(id);
       await this.userRepository.destroy(id);
     } catch (err) {
-      console.log(err);
+      if (err instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException();
+      }
+
+      throw err;
     }
   }
 }

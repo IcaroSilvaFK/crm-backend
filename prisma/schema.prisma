@@ -31,21 +31,20 @@ model Customers {
   phoneNumber Int        @map("phone_number")
   createdAt   DateTime   @default(now()) @map("created_at")
   updatedAt   DateTime   @updatedAt @map("updated_at")
-  Services    Services[]
-  Address     Address[]
+  services    Services[]
+  address     Address?
 
   @@map("customers")
 }
 
 model Address {
-  id           String    @id @default(uuid())
+  id           String     @id @default(uuid())
   number       Int
   street       String
   neighborhood String
   complement   String
-  customerId   String    @map("customer_id")
-  customer     Customers @relation(fields: [customersId], references: [id])
-  customersId  String
+  customerId   String?    @unique @map("customer_id")
+  customer     Customers? @relation(fields: [customerId], references: [id])
 
   @@map("addreess")
 }
