@@ -12,7 +12,7 @@ describe('#CustomerEntity', () => {
 
     jest.spyOn(UuidUtils, 'generateUUID').mockReturnValue(mockId);
 
-    const customer = new CustomerEntity('Test', 62998358542);
+    const customer = new CustomerEntity('Test', '62998358542');
 
     customer.setAddress = new AddressEntity(
       353,
@@ -24,7 +24,7 @@ describe('#CustomerEntity', () => {
     const expectedCustomer = {
       id: mockId,
       username: 'Test',
-      phoneNumber: 62998358542,
+      phoneNumber: '62998358542',
       address: {
         number: 353,
         street: 'street',

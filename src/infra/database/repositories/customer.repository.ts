@@ -1,4 +1,4 @@
-import { AddressEntity } from 'src/application/entities/address.entity';
+import { AddressEntity } from '../../../application/entities/address.entity';
 import { CustomerEntity } from '../../../application/entities/customer.entity';
 import { CustomerRepositoryInterface } from '../../../application/repositories/customerRepositoryInterface';
 

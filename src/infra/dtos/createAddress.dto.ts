@@ -8,6 +8,10 @@ export class CreateAddressDto {
 
   @ApiProperty()
   @IsString()
+  street: string;
+
+  @ApiProperty()
+  @IsString()
   neighborhood: string;
 
   @ApiProperty()

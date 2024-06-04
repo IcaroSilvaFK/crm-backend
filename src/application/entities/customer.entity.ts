@@ -4,14 +4,14 @@ import { UuidUtils } from '../../infra/utils/uuidUtils';
 export class CustomerEntity {
   id: string;
   username: string;
-  phoneNumber: number;
+  phoneNumber: string;
   createdAt: Date;
   updatedAt: Date;
   address?: AddressEntity;
 
   constructor(
     username: string,
-    phoneNumber: number,
+    phoneNumber: string,
     id?: string,
     address?: AddressEntity,
   ) {

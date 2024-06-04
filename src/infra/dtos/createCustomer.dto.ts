@@ -1,9 +1,4 @@
-import {
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 import { CreateAddressDto } from './createAddress.dto';
 import { ApiProperty } from '@nestjs/swagger';
@@ -14,8 +9,8 @@ export class CreateCustomerDto {
   username: string;
 
   @ApiProperty()
-  @IsNumber()
-  phoneNumber: number;
+  @IsString()
+  phoneNumber: string;
 
   @ApiProperty()
   @IsOptional()

@@ -75,7 +75,7 @@ describe('#ServiceEntity', () => {
     jest.spyOn(UuidUtils, 'generateUUID').mockReturnValue(mockId);
 
     const service = new ServiceEntity('123', 'test', 2500);
-    const customer = new CustomerEntity('Test', 62998358542);
+    const customer = new CustomerEntity('Test', '62998358542');
 
     service.setCustomer = customer;
 
@@ -88,9 +88,9 @@ describe('#ServiceEntity', () => {
       id: mockId,
       customer: {
         username: 'Test',
-        phoneNumber: 62998358542,
+        phoneNumber: '62998358542',
         address: undefined,
-        id: '123-123-123-123-123',
+        id: mockId,
       },
     };
 
