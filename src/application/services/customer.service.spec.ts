@@ -36,7 +36,7 @@ describe('#CustomerService Test Case Suite', () => {
       username: 'test',
       createdAt: now,
       updatedAt: now,
-      address: {},
+      phoneNumber: '6321321321',
     };
 
     expect(result.toJson()).toStrictEqual(expected);

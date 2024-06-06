@@ -12,7 +12,7 @@ export class UserPresenter {
   constructor(
     private readonly data: Partial<UserEntity> | Partial<UserEntity>[],
   ) {}
-  private _toJsonArray() {
+  private _toJsonArray(): UserPresenterOutput[] {
     return (this.data as Partial<UserEntity>[]).map(this._toJson);
   }
 

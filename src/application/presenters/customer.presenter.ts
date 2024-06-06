@@ -5,6 +5,7 @@ type CustomerPresenterOutput = {
   username: string;
   createdAt: Date;
   updatedAt: Date;
+  phoneNumber: string;
   address: {
     id: string;
     number: number;
@@ -19,19 +20,22 @@ export class CustomerPresenter {
     private readonly data: Partial<CustomerEntity> | Partial<CustomerEntity>[],
   ) {}
 
-  private _toJsonArray() {
+  private _toJsonArray(): CustomerPresenterOutput[] {
     return (this.data as Partial<CustomerEntity>[]).map(this._toJson);
   }
 
-  private _toJson(customer: Partial<CustomerEntity>) {
+  private _toJson(customer: Partial<CustomerEntity>): CustomerPresenterOutput {
     return {
       id: customer.id,
       username: customer.username,
-      createdAt: customer.createdAt,
-      updatedAt: customer.updatedAt,
-      address: {
-        ...customer.address,
-      },
+      createdAt: customer?.createdAt,
+      updatedAt: customer?.updatedAt,
+      phoneNumber: customer.phoneNumber,
+      ...(customer?.address && {
+        address: {
+          ...customer?.address,
+        },
+      }),
     };
   }
 
