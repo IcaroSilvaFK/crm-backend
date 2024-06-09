@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 
 import { CustomerRepositoryInterface } from '../repositories/customerRepositoryInterface';
+import { AddressRepositoryInterface } from '../repositories/addressRepositoryInterface';
 
 import { CreateCustomerDto } from '../../infra/dtos/createCustomer.dto';
 import { CustomerEntity } from '../entities/customer.entity';
@@ -19,6 +20,7 @@ export class CustomerService {
 
   constructor(
     private readonly customerRepository: CustomerRepositoryInterface,
+    private readonly addressRepository: AddressRepositoryInterface,
   ) {}
 
   async store(input: CreateCustomerDto): Promise<CustomerPresenter> {
@@ -35,6 +37,12 @@ export class CustomerService {
       }
 
       const result = await this.customerRepository.store(customer);
+
+      if (customer.address) {
+        await this.addressRepository.store(customer.id, customer.address);
+      }
+
+      this.logger.log(`The customer ${input.username} was created`);
 
       return new CustomerPresenter(result);
     } catch (err) {
@@ -79,10 +87,7 @@ export class CustomerService {
 
   async update(id: string, data: UpdateCustomerDto): Promise<void> {
     try {
-      await this.customerRepository.update(id, {
-        username: data?.username,
-        phoneNumber: data?.phoneNumber,
-      });
+      await this.customerRepository.update(id, data as Partial<CustomerEntity>);
     } catch (err) {
       this.logger.error(err);
       if (err instanceof PrismaClientUnknownRequestError) {

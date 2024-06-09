@@ -128,6 +128,8 @@ describe('#UserRepository', () => {
 
     await userRepo.destroy(user.id);
 
-    expect(async () => userRepo.findById(user.id)).rejects.toThrow();
+    await expect(
+      async () => await userRepo.findById(user.id),
+    ).rejects.toThrow();
   });
 });

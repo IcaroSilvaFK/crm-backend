@@ -1,6 +1,6 @@
 import { CustomerEntity } from '../entities/customer.entity';
 
-type CustomerPresenterOutput = {
+export type CustomerPresenterOutput = {
   id: string;
   username: string;
   createdAt: Date;
