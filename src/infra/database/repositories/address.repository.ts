@@ -9,8 +9,6 @@ export class AddressRepository implements AddressRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 
   async store(id: string, address: AddressEntity): Promise<AddressEntity> {
-    await this.verifyIfCustomerExists(id);
-
     await this.prismaService.address.create({
       data: {
         complement: address.complement,
@@ -29,8 +27,6 @@ export class AddressRepository implements AddressRepositoryInterface {
     return address;
   }
   async update(id: string, address: Partial<AddressEntity>): Promise<void> {
-    await this.verifyIfCustomerExists(id);
-
     await this.prismaService.address.updateMany({
       where: {
         OR: [
@@ -106,18 +102,6 @@ export class AddressRepository implements AddressRepositoryInterface {
         ],
       },
     });
-  }
-
-  private async verifyIfCustomerExists(id: string) {
-    const userExists = await this.prismaService.customers.findFirst({
-      where: {
-        id,
-      },
-    });
-
-    if (!userExists) {
-      throw new BadRequestException('User not found');
-    }
   }
 
   private generateOutput(address: Address): AddressEntity {

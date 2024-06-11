@@ -58,19 +58,6 @@ describe('#AddressRepository Suite Test Case', () => {
     expect(result).toEqual(expected);
   });
 
-  it("Should not create a new address when customer doesn't exists", async () => {
-    const address = new AddressEntity(
-      123,
-      'Street',
-      'Neighborhood',
-      'Complement',
-    );
-
-    await expect(
-      async () => await addressRepo.store('123', address),
-    ).rejects.toThrow();
-  });
-
   it('Should find address using customer id', async () => {
     const customer = new CustomerEntity('Test', '62998358542');
 
@@ -140,19 +127,6 @@ describe('#AddressRepository Suite Test Case', () => {
     };
 
     expect(result).toEqual(expected);
-  });
-
-  it("Should not update fields from address when pass valid address and user doesn't exists", async () => {
-    const newAddress = new AddressEntity(
-      123,
-      'Street 2',
-      'Neighborhood 2',
-      'Complement 2',
-    );
-
-    await expect(
-      async () => await addressRepo.update('123', newAddress),
-    ).rejects.toThrow();
   });
 
   it.skip('Should find all registers without filters', async () => {
