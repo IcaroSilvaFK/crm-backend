@@ -1,4 +1,4 @@
-import { CustomerEntity } from 'src/application/entities/customer.entity';
+import { CustomerEntity } from '../../../application/entities/customer.entity';
 import { CustomerRepositoryInterface } from '../../../application/repositories/customerRepositoryInterface';
 import { NotFoundException } from '@nestjs/common';
 

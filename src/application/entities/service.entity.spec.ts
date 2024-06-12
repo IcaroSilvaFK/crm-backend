@@ -21,6 +21,7 @@ describe('#ServiceEntity', () => {
       startDate: undefined,
       endDate: undefined,
       id: mockId,
+      status: 'PENDING',
     };
 
     expect(service).toEqual(expected);
@@ -42,6 +43,7 @@ describe('#ServiceEntity', () => {
       value: 2500,
       startDate: mockDate,
       endDate: undefined,
+      status: 'PENDING',
       id: mockId,
     };
 
@@ -63,6 +65,7 @@ describe('#ServiceEntity', () => {
       value: 2500,
       startDate: undefined,
       endDate: endAt,
+      status: 'PENDING',
       id: mockId,
     };
 
@@ -85,6 +88,7 @@ describe('#ServiceEntity', () => {
       value: 2500,
       startDate: undefined,
       endDate: undefined,
+      status: 'PENDING',
       id: mockId,
       customer: {
         username: 'Test',

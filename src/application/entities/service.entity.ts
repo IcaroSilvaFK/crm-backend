@@ -21,6 +21,7 @@ export class ServiceEntity {
     customerId: string,
     details: string,
     value: number,
+    status: ServicesEntityStatus = ServicesEntityStatus.PENDING,
     id?: string,
     startDate?: Date,
     endDate?: Date,
@@ -30,6 +31,7 @@ export class ServiceEntity {
     this.value = value;
     this.startDate = startDate;
     this.endDate = endDate;
+    this.status = status;
     this.id = id ?? UuidUtils.generateUUID();
   }
 
