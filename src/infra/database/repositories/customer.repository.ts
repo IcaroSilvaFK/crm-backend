@@ -1,10 +1,11 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
+
 import { AddressEntity } from '../../../application/entities/address.entity';
 import { CustomerEntity } from '../../../application/entities/customer.entity';
 import { CustomerRepositoryInterface } from '../../../application/repositories/customerRepositoryInterface';
-
 import { PrismaService } from '../prisma/prisma.service';
-import { NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class CustomerRepository implements CustomerRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 

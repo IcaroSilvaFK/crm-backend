@@ -31,7 +31,7 @@ export class ServicesController {
   async findById(@Param('id', new ParseUUIDPipe()) id: string) {
     const result = await this.serviceService.findById(id);
 
-    return result;
+    return result.toJson();
   }
 
   @Get('/customers/:customerId')
@@ -40,14 +40,14 @@ export class ServicesController {
   ) {
     const result = await this.serviceService.findByCustomer(customerId);
 
-    return result;
+    return result.toJson();
   }
 
   @Get()
   async findAll() {
     const result = await this.serviceService.findAll();
 
-    return result;
+    return result.toJson();
   }
 
   @Put(':id')

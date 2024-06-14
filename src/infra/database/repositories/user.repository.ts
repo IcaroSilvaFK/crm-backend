@@ -1,11 +1,17 @@
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+
 import { UserRepositoryInterface } from '../../../application/repositories/userRepositoryInterface';
 import {
   UserEntity,
   UserRoles,
 } from '../../../application/entities/user.entity';
 import { PrismaService } from '../prisma/prisma.service';
-import { BadRequestException, NotFoundException } from '@nestjs/common';
 
+@Injectable()
 export class UserRepository implements UserRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 

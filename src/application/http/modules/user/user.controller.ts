@@ -24,13 +24,13 @@ export class UsersController {
   @Post()
   async createNewUser(@Body() data: CreateUserDTO) {
     const result = await this.userService.store(data);
-    return result;
+    return result.toJson();
   }
 
   @Get('/:id')
   async findById(@Param('id', new ParseUUIDPipe()) id: string) {
     const result = await this.userService.findById(id);
-    return result;
+    return result.toJson();
   }
 
   @Put('/:id')

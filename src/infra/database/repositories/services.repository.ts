@@ -1,3 +1,4 @@
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Services, ServicesStatus } from '@prisma/client';
 
 import {
@@ -7,7 +8,6 @@ import {
 import { ServicesRepositoryInterface } from '../../../application/repositories/servicesRepositoryInterface';
 
 import { PrismaService } from '../prisma/prisma.service';
-import { NotFoundException } from '@nestjs/common';
 import { CustomerEntity } from '../../../application/entities/customer.entity';
 
 type PartialServices = {
@@ -21,6 +21,8 @@ type PartialServices = {
   endDate: Date;
   status: ServicesStatus;
 };
+
+@Injectable()
 export class ServicesRepository implements ServicesRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 

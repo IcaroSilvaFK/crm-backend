@@ -1,7 +1,5 @@
-import { Injectable } from '@nestjs/common';
 import { AddressEntity } from '../entities/address.entity';
 
-@Injectable()
 export abstract class AddressRepositoryInterface {
   abstract store(
     userId: string,

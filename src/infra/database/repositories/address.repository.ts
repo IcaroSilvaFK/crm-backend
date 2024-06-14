@@ -1,10 +1,11 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Address } from '@prisma/client';
 import { AddressEntity } from '../../../application/entities/address.entity';
 import { AddressRepositoryInterface } from '../../../application/repositories/addressRepositoryInterface';
 
 import { PrismaService } from '../prisma/prisma.service';
 
+@Injectable()
 export class AddressRepository implements AddressRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 
