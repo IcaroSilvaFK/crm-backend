@@ -30,4 +30,8 @@ export class InMemoryServiceRepository implements ServicesRepositoryInterface {
   async destroy(id: string): Promise<void> {
     this.services = this.services.filter((s) => s.id !== id);
   }
+
+  async findAllByCustomer(customerId: string): Promise<ServiceEntity[]> {
+    return this.services.filter((service) => service.customerId === customerId);
+  }
 }

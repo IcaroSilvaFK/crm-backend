@@ -15,7 +15,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateUserDTO } from '../../../../infra/dtos/createUser.dto';
 import { UpdateUserDTO } from '../../../../infra/dtos/updateUser.dto';
 import { UserService } from '../../../services/user.service';
-import { UserPresenterOutput } from '../../../../application/presenters/user.presenter';
 
 @ApiTags('users')
 @Controller('/users')
@@ -23,17 +22,15 @@ export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async createNewUser(
-    @Body() data: CreateUserDTO,
-  ): Promise<UserPresenterOutput> {
+  async createNewUser(@Body() data: CreateUserDTO) {
     const result = await this.userService.store(data);
-    return result.toJson() as UserPresenterOutput;
+    return result;
   }
 
   @Get('/:id')
   async findById(@Param('id', new ParseUUIDPipe()) id: string) {
     const result = await this.userService.findById(id);
-    return result.toJson();
+    return result;
   }
 
   @Put('/:id')
@@ -42,12 +39,12 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateUserDTO,
   ) {
-    return await this.userService.update(id, data);
+    await this.userService.update(id, data);
   }
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
-    return await this.userService.destroy(id);
+    await this.userService.destroy(id);
   }
 }

@@ -4,6 +4,7 @@ import { UsersController } from './user.controller';
 import { UserRoles } from '../../../entities/user.entity';
 import { HashUtils } from '../../../../infra/utils/hashUtil';
 import { UuidUtils } from '../../../../infra/utils/uuidUtils';
+import { UserPresenterOutput } from '../../../../application/presenters/user.presenter';
 
 describe('#UsersController', () => {
   let userService: UserService;
@@ -43,7 +44,7 @@ describe('#UsersController', () => {
       id: expectedId,
     };
 
-    expect(result).toStrictEqual(expected);
+    expect(result.toJson()).toStrictEqual(expected);
   });
 
   it('Should find user by id when exists user', async () => {
@@ -54,9 +55,11 @@ describe('#UsersController', () => {
       username: 'test',
     });
 
-    const result = await userController.findById(createdUser.id);
+    const jsonUser = createdUser.toJson() as UserPresenterOutput;
 
-    expect(result).toStrictEqual(createdUser);
+    const result = await userController.findById(jsonUser.id);
+
+    expect(result.toJson()).toStrictEqual(jsonUser);
   });
 
   it('Should ive exception when user not found', async () => {
@@ -79,12 +82,14 @@ describe('#UsersController', () => {
       username: 'test',
     });
 
-    await userController.update(createdUser.id, {
+    const jsonUser = createdUser.toJson() as UserPresenterOutput;
+
+    await userController.update(jsonUser.id, {
       username: 'testupdate',
       role: UserRoles.ADMIN,
     });
 
-    const result = await userController.findById(createdUser.id);
+    const result = await userController.findById(jsonUser.id);
 
     const expected = {
       username: 'testupdate',
@@ -94,7 +99,7 @@ describe('#UsersController', () => {
       id: mockUUID,
     };
 
-    expect(result).toEqual(expected);
+    expect(result.toJson()).toEqual(expected);
   });
 
   it('Should throw exception whe user not exists', async () => {
@@ -114,10 +119,12 @@ describe('#UsersController', () => {
       username: 'test',
     });
 
-    await userController.delete(createdUser.id);
+    const jsonUser = createdUser.toJson() as UserPresenterOutput;
+
+    await userController.delete(jsonUser.id);
 
     await expect(
-      async () => await userController.findById(createdUser.id),
+      async () => await userController.findById(jsonUser.id),
     ).rejects.toThrow();
   });
 

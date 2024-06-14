@@ -6,4 +6,5 @@ export abstract class ServicesRepositoryInterface {
   abstract findById(id: string): Promise<Partial<ServiceEntity>>;
   abstract findAll(query?: string): Promise<ServiceEntity[]>;
   abstract destroy(id: string): Promise<void>;
+  abstract findAllByCustomer(customerId: string): Promise<ServiceEntity[]>;
 }

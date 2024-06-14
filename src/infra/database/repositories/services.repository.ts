@@ -1,4 +1,4 @@
-import { Services } from '@prisma/client';
+import { Services, ServicesStatus } from '@prisma/client';
 
 import {
   ServiceEntity,
@@ -10,6 +10,17 @@ import { PrismaService } from '../prisma/prisma.service';
 import { NotFoundException } from '@nestjs/common';
 import { CustomerEntity } from '../../../application/entities/customer.entity';
 
+type PartialServices = {
+  customer: { id: string; username: string; phoneNumber: string };
+} & {
+  id: string;
+  customerId: string;
+  details: string;
+  value: number;
+  startDate: Date;
+  endDate: Date;
+  status: ServicesStatus;
+};
 export class ServicesRepository implements ServicesRepositoryInterface {
   constructor(private readonly prismaService: PrismaService) {}
 
@@ -93,7 +104,38 @@ export class ServicesRepository implements ServicesRepositoryInterface {
       },
     });
 
-    return result.map((service) => {
+    return this.serialize(result);
+  }
+
+  async findAllByCustomer(customerId: string): Promise<ServiceEntity[]> {
+    const services = await this.prismaService.services.findMany({
+      where: {
+        customerId,
+      },
+      include: {
+        customer: {
+          select: {
+            username: true,
+            phoneNumber: true,
+            id: true,
+          },
+        },
+      },
+    });
+
+    return this.serialize(services);
+  }
+
+  async destroy(id: string): Promise<void> {
+    await this.prismaService.services.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
+  private serialize(services: PartialServices[]) {
+    return services.map((service) => {
       const currentService = new ServiceEntity(
         service.customerId,
         service.details,
@@ -111,14 +153,6 @@ export class ServicesRepository implements ServicesRepositoryInterface {
       );
 
       return currentService;
-    });
-  }
-
-  async destroy(id: string): Promise<void> {
-    await this.prismaService.services.delete({
-      where: {
-        id,
-      },
     });
   }
 }
