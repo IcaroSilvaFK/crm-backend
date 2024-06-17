@@ -6,7 +6,10 @@ import {
 } from '@nestjs/common';
 import { ServicesRepositoryInterface } from '../repositories/servicesRepositoryInterface';
 import { CreateServiceDto } from '../../infra/dtos/createService.dto';
-import { ServiceEntity } from '../entities/service.entity';
+import {
+  ServiceEntity,
+  ServicesEntityStatus,
+} from '../entities/service.entity';
 import { ServicePresenter } from '../presenters/service.presenter';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { UpdateServiceDto } from '../../infra/dtos/updateService.dto';
@@ -14,19 +17,20 @@ import { UpdateServiceDto } from '../../infra/dtos/updateService.dto';
 @Injectable()
 export class ServicesService {
   private logger = new Logger();
+  private readonly PERCENT_TO_CENTS = 1_000;
   constructor(
     private readonly servicesRepository: ServicesRepositoryInterface,
   ) {}
 
   async store(data: CreateServiceDto) {
     try {
+      const realValue = data.value * this.PERCENT_TO_CENTS;
       const service = new ServiceEntity(
         data.customerId,
         data.details,
-        data.value,
-        data.status,
+        realValue,
+        data.status || ServicesEntityStatus.PENDING,
       );
-
       await this.servicesRepository.store(service);
     } catch (err) {
       this.logger.error(err);
@@ -88,8 +92,9 @@ export class ServicesService {
 
       const input = {
         ...data,
-        endDate: data.endDate ? new Date(data.endDate) : undefined,
-        startDate: data.startDate ? new Date(data.startDate) : undefined,
+        ...(data.endDate && { endDate: new Date(data.endDate) }),
+        ...(data.startDate && { startDate: new Date(data.startDate) }),
+        ...(data.value && { value: data.value * this.PERCENT_TO_CENTS }),
       };
 
       await this.servicesRepository.update(id, input);

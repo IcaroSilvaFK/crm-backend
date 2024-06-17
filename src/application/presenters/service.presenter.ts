@@ -14,9 +14,13 @@ type ServicePresenterOutput = {
 };
 
 export class ServicePresenter {
+  private readonly PERCENT_TO_CENTS = 1_000;
+
   constructor(
     private readonly data: Partial<ServiceEntity> | Partial<ServiceEntity>[],
-  ) {}
+  ) {
+    this._toJson = this._toJson.bind(this);
+  }
 
   toJson() {
     return Array.isArray(this.data)
@@ -25,11 +29,13 @@ export class ServicePresenter {
   }
 
   private _toJson(service: Partial<ServiceEntity>): ServicePresenterOutput {
+    const realValue = service.value / this.PERCENT_TO_CENTS;
+
     return {
       id: service.id,
       customerId: service.customerId,
       details: service.details,
-      value: service.value,
+      value: realValue,
       status: service.status,
       startDate: service?.startDate,
       endDate: service?.endDate,

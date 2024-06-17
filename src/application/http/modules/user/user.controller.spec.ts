@@ -44,22 +44,20 @@ describe('#UsersController', () => {
       id: expectedId,
     };
 
-    expect(result.toJson()).toStrictEqual(expected);
+    expect(result).toStrictEqual(expected);
   });
 
   it('Should find user by id when exists user', async () => {
-    const createdUser = await userController.createNewUser({
+    const createdUser = (await userController.createNewUser({
       email: 'test@test.com',
       password: '1234',
       role: UserRoles.USER,
       username: 'test',
-    });
+    })) as UserPresenterOutput;
 
-    const jsonUser = createdUser.toJson() as UserPresenterOutput;
+    const result = await userController.findById(createdUser.id);
 
-    const result = await userController.findById(jsonUser.id);
-
-    expect(result.toJson()).toStrictEqual(jsonUser);
+    expect(result).toStrictEqual(createdUser);
   });
 
   it('Should ive exception when user not found', async () => {
@@ -75,21 +73,19 @@ describe('#UsersController', () => {
 
     jest.setSystemTime(now);
 
-    const createdUser = await userController.createNewUser({
+    const createdUser = (await userController.createNewUser({
       email: 'test@test.com',
       password: '1234',
       role: UserRoles.USER,
       username: 'test',
-    });
+    })) as UserPresenterOutput;
 
-    const jsonUser = createdUser.toJson() as UserPresenterOutput;
-
-    await userController.update(jsonUser.id, {
+    await userController.update(createdUser.id, {
       username: 'testupdate',
       role: UserRoles.ADMIN,
     });
 
-    const result = await userController.findById(jsonUser.id);
+    const result = await userController.findById(createdUser.id);
 
     const expected = {
       username: 'testupdate',
@@ -99,7 +95,7 @@ describe('#UsersController', () => {
       id: mockUUID,
     };
 
-    expect(result.toJson()).toEqual(expected);
+    expect(result).toEqual(expected);
   });
 
   it('Should throw exception whe user not exists', async () => {
@@ -112,19 +108,17 @@ describe('#UsersController', () => {
   });
 
   it('Should destroy user when exists', async () => {
-    const createdUser = await userController.createNewUser({
+    const createdUser = (await userController.createNewUser({
       email: 'test@test.com',
       password: '1234',
       role: UserRoles.USER,
       username: 'test',
-    });
+    })) as UserPresenterOutput;
 
-    const jsonUser = createdUser.toJson() as UserPresenterOutput;
-
-    await userController.delete(jsonUser.id);
+    await userController.delete(createdUser.id);
 
     await expect(
-      async () => await userController.findById(jsonUser.id),
+      async () => await userController.findById(createdUser.id),
     ).rejects.toThrow();
   });
 

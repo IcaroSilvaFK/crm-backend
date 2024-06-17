@@ -28,10 +28,10 @@ export class CreateServiceDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  startDate: string;
+  startDate?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  endDate: string;
+  endDate?: string;
 }
