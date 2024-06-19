@@ -9,7 +9,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { AddressService } from '../../../services/address.service';
 import { CreateAddressDto } from '../../../../infra/dtos/createAddress.dto';
@@ -21,6 +21,7 @@ export class AddressController {
 
   @Post('/:customerId')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async store(
     @Body() data: CreateAddressDto,
     @Param('customerId', new ParseUUIDPipe()) customerId: string,
@@ -30,6 +31,7 @@ export class AddressController {
 
   @Put('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: CreateAddressDto,
@@ -39,6 +41,7 @@ export class AddressController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async destroy(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.addressService.destroy(id);
   }

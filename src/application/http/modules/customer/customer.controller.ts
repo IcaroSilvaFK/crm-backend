@@ -11,7 +11,7 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CustomerService } from '../../../services/customer.service';
 import { CreateCustomerDto } from '../../../../infra/dtos/createCustomer.dto';
@@ -42,6 +42,7 @@ export class CustomerController {
 
   @Put(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async updateCustomer(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateCustomerDto,
@@ -51,6 +52,7 @@ export class CustomerController {
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async destroy(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.customerService.destroy(id);
   }

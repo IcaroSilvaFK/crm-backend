@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateServiceDto } from '../../../../infra/dtos/createService.dto';
 import { UpdateServiceDto } from '../../../../infra/dtos/updateService.dto';
@@ -23,6 +23,7 @@ export class ServicesController {
 
   @Post()
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async store(@Body() data: CreateServiceDto) {
     await this.serviceService.store(data);
   }
@@ -52,6 +53,7 @@ export class ServicesController {
 
   @Put(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateServiceDto,
@@ -60,6 +62,8 @@ export class ServicesController {
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.serviceService.destroy(id);
   }

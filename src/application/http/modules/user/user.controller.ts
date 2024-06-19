@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { CreateUserDTO } from '../../../../infra/dtos/createUser.dto';
 import { UpdateUserDTO } from '../../../../infra/dtos/updateUser.dto';
@@ -35,6 +35,7 @@ export class UsersController {
 
   @Put('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() data: UpdateUserDTO,
@@ -44,6 +45,7 @@ export class UsersController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({ status: HttpStatus.NO_CONTENT, description: 'Success' })
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.userService.destroy(id);
   }
